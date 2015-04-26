@@ -8,21 +8,35 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.Console;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.liviu.helloapp.R.layout.*;
 
 
 public class Dashboard extends ActionBarActivity {
     TextView output;
     ProgressBar pb;
     SharedPreferences someData;
+    List<Projects> projectList;
+    List<String> myItems= new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(activity_dashboard);
 
         someData = getSharedPreferences(MainActivity.filename,0);
         String id=someData.getString("id","Nu exista data aceasta");
@@ -78,6 +92,11 @@ public class Dashboard extends ActionBarActivity {
         output.append(message+'\n');
     }
 
+    protected void updateDisplayInt(int n){
+        output.setText(n);
+
+    }
+
     protected boolean isOnline(){
         ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo=cm.getActiveNetworkInfo();
@@ -94,7 +113,7 @@ public class Dashboard extends ActionBarActivity {
 
         @Override
         protected void onPreExecute() {
-            updateDisplay("Starting task");
+
             pb.setVisibility(View.VISIBLE);
         }
 
@@ -106,14 +125,46 @@ public class Dashboard extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            updateDisplay(s);
+
+            try{
+
+                JSONArray arr = new JSONArray(s);
+                List<Projects> projectsList=new ArrayList<>();
+
+                Log.e("LUNGIMEA VECTORULUI", String.valueOf(arr.length()));
+                for (int i=0;i<arr.length();i++){
+                    Projects project = new Projects();
+                    JSONObject obj=arr.getJSONObject(i);
+                    project.setProject_name(obj.getString("project_name"));
+                    project.setProject_description(obj.getString("project_description"));
+                    myItems.add(obj.getString("project_name"));
+                    projectsList.add(project);
+                }
+
+
+                populateListView();
+
+
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
 
             pb.setVisibility(View.INVISIBLE);
         }
+
 
         @Override
         protected void onProgressUpdate(String... values) {
             updateDisplay(values[0]);
         }
+
     }
+    private void populateListView() {
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,lista_cu_projecte,myItems);
+        ListView list = (ListView) findViewById(R.id.listView);
+        list.setAdapter(adapter);
+    }
+
 }

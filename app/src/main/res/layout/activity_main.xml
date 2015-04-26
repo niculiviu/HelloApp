@@ -29,7 +29,8 @@
         android:id="@+id/email"
         android:layout_above="@+id/progressBar"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="53dp" />
+        android:layout_marginBottom="53dp"
+        android:hint="e-mail" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -39,25 +40,36 @@
         android:id="@+id/pass"
         android:layout_above="@+id/progressBar"
         android:layout_alignLeft="@+id/email"
-        android:layout_alignStart="@+id/email" />
+        android:layout_alignStart="@+id/email"
+        android:hint="Password" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
+        android:layout_marginTop="5pt"
+        android:background="#5bbd72"
+        android:textColor="#fff"
         android:id="@+id/login"
         android:layout_below="@+id/pass"
         android:layout_alignLeft="@+id/pass"
-        android:layout_alignStart="@+id/pass" />
+        android:layout_alignStart="@+id/pass"
+        android:layout_alignRight="@+id/register"
+        android:layout_alignEnd="@+id/register" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"
+        android:layout_marginTop="5pt"
+        android:background="#458ac6"
+        android:textColor="#fff"
         android:id="@+id/register"
-        android:layout_below="@+id/pass"
-        android:layout_toRightOf="@+id/progressBar"
-        android:layout_toEndOf="@+id/progressBar" />
+        android:layout_below="@+id/login"
+        android:layout_alignLeft="@+id/pass"
+        android:layout_alignStart="@+id/pass"
+        android:layout_alignRight="@+id/pass"
+        android:layout_alignEnd="@+id/pass" />
 
 
 </RelativeLayout>
