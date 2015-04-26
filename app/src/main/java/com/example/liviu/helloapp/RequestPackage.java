@@ -45,7 +45,7 @@ public class RequestPackage {
         for(String key: params.keySet()){
             String value=null;
             try {
-                value = URLEncoder.encode(params.get(key),"WTF-8");
+                value = URLEncoder.encode(params.get(key),"UTF-8");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -57,5 +57,6 @@ public class RequestPackage {
         }
         return sb.toString();
     }
+
 
 }
