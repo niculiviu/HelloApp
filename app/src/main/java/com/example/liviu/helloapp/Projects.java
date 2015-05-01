@@ -8,6 +8,15 @@ public class Projects {
 
     private String project_name;
     private String project_description;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getProject_name() {
         return project_name;

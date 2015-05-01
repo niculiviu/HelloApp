@@ -1,8 +1,10 @@
 package com.example.liviu.helloapp;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -26,6 +28,7 @@ import org.w3c.dom.Text;
 
 
 public class MainActivity extends ActionBarActivity {
+
     TextView output;
     ProgressBar pb;
     EditText email;
@@ -35,12 +38,23 @@ public class MainActivity extends ActionBarActivity {
     Button login;
 
     public static String filename="MySharedString";
+    public static String login_url="http://192.168.2.2:8081/login/user";
     SharedPreferences someData;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setLogo(R.drawable.logo);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setTitle("Task Heroes");
 
         someData = getSharedPreferences(filename,0);
 
@@ -59,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if(isOnline()){
                     System.out.println(email.toString() + " " + pass.toString());
-                    requestData("http://192.168.2.4:8081/login/user", email.getText().toString(), pass.getText().toString());
+                    requestData(login_url, email.getText().toString(), pass.getText().toString());
                 }
             }
         });
@@ -135,7 +149,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected void onPreExecute() {
-            updateDisplay("Starting task");
+            //updateDisplay("Starting task");
             pb.setVisibility(View.VISIBLE);
         }
 
@@ -147,7 +161,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(String s) {
-           updateDisplay(s);
+           //updateDisplay(s);
             if(s!=null){
                 try{
 

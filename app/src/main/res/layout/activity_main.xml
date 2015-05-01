@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         android:layout_gravity="center_horizontal"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/register"
         android:layout_centerHorizontal="true" />
 
     <EditText
@@ -27,10 +27,9 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/email"
-        android:layout_above="@+id/progressBar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="53dp"
-        android:hint="e-mail" />
+        android:hint="E-mail"
+        android:layout_above="@+id/pass"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -38,24 +37,23 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/pass"
-        android:layout_above="@+id/progressBar"
+        android:hint="Password"
+        android:layout_above="@+id/login"
         android:layout_alignLeft="@+id/email"
-        android:layout_alignStart="@+id/email"
-        android:hint="Password" />
+        android:layout_alignStart="@+id/email" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:layout_marginTop="5pt"
         android:background="#5bbd72"
         android:textColor="#fff"
         android:id="@+id/login"
-        android:layout_below="@+id/pass"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/pass"
+        android:layout_alignEnd="@+id/pass"
         android:layout_alignLeft="@+id/pass"
-        android:layout_alignStart="@+id/pass"
-        android:layout_alignRight="@+id/register"
-        android:layout_alignEnd="@+id/register" />
+        android:layout_alignStart="@+id/pass" />
 
     <Button
         android:layout_width="wrap_content"

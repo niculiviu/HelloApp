@@ -1,5 +1,6 @@
 package com.example.liviu.helloapp;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -12,17 +13,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.liviu.helloapp.R.layout.*;
 
@@ -33,6 +38,12 @@ public class Dashboard extends ActionBarActivity {
     SharedPreferences someData;
     List<Projects> projectList;
     List<String> myItems= new ArrayList<>();
+    //List<Objects>;
+
+
+
+
+    public static String get_projects_url="http://192.168.2.2:8081/mobile/get/projects";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +59,9 @@ public class Dashboard extends ActionBarActivity {
         pb=(ProgressBar)findViewById(R.id.loader);
         pb.setVisibility(View.INVISIBLE);
 
+
         if(isOnline()){
-            requestData("http://192.168.2.4:8081/mobile/get/projects",id);
+            requestData(get_projects_url,id);
         }
     }
 
@@ -129,12 +141,13 @@ public class Dashboard extends ActionBarActivity {
             try{
 
                 JSONArray arr = new JSONArray(s);
-                List<Projects> projectsList=new ArrayList<>();
+                final List<Projects> projectsList=new ArrayList<>();
 
                 Log.e("LUNGIMEA VECTORULUI", String.valueOf(arr.length()));
                 for (int i=0;i<arr.length();i++){
                     Projects project = new Projects();
                     JSONObject obj=arr.getJSONObject(i);
+                    project.setId(obj.getString("_id"));
                     project.setProject_name(obj.getString("project_name"));
                     project.setProject_description(obj.getString("project_description"));
                     myItems.add(obj.getString("project_name"));
@@ -143,6 +156,22 @@ public class Dashboard extends ActionBarActivity {
 
 
                 populateListView();
+
+                ListView listView=(ListView) findViewById(R.id.listView);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String project = ((TextView) view).getText().toString();
+
+                            Log.e("Pro_id:",projectsList.get(position).getId().toString());
+                            Log.e("Pro_name:",projectsList.get(position).getProject_name());
+
+
+                        Toast.makeText(getApplicationContext(),
+                                "Click ListItem Number " + project, Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
 
 
             }
