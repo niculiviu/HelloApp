@@ -2,8 +2,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="#f0f0f0"
+    android:padding="10pt">
 
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false"
+        android:id="@+id/linearLayout">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/email"
+            android:hint="E-mail"
+            android:background="#e8e8e8"
+            android:textColor="#7e7e7e"
+            android:textColorHint="#cccccc"
+            android:padding="5pt"
+            android:layout_marginBottom="5pt"
+            android:layout_marginTop="5pt"
+            android:layout_above="@+id/pass"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:shadowDx="10"
+            android:shadowRadius="10"
+            android:id="@+id/pass"
+            android:background="#e8e8e8"
+            android:textColor="#7e7e7e"
+            android:textColorHint="#cccccc"
+            android:hint="Password"
+            android:padding="5pt"
+            android:layout_marginBottom="5pt"
+            android:layout_above="@+id/login"
+            android:layout_alignLeft="@+id/email"
+            android:layout_alignStart="@+id/email" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -11,7 +57,9 @@
         android:text=""
         android:scrollbars="vertical"
         android:id="@+id/textView"
-        />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ProgressBar
         android:layout_width="wrap_content"
@@ -21,27 +69,6 @@
         android:layout_below="@+id/register"
         android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/email"
-        android:hint="E-mail"
-        android:layout_above="@+id/pass"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/pass"
-        android:hint="Password"
-        android:layout_above="@+id/login"
-        android:layout_alignLeft="@+id/email"
-        android:layout_alignStart="@+id/email" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,25 +76,35 @@
         android:background="#5bbd72"
         android:textColor="#fff"
         android:id="@+id/login"
-        android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/pass"
-        android:layout_alignEnd="@+id/pass"
-        android:layout_alignLeft="@+id/pass"
-        android:layout_alignStart="@+id/pass" />
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignLeft="@+id/linearLayout"
+        android:layout_alignStart="@+id/linearLayout"
+        android:layout_alignRight="@+id/progressBar"
+        android:layout_alignEnd="@+id/progressBar" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"
-        android:layout_marginTop="5pt"
-        android:background="#458ac6"
-        android:textColor="#fff"
+        android:background="#f0f0f0"
+        android:textColor="#ccc"
         android:id="@+id/register"
-        android:layout_below="@+id/login"
-        android:layout_alignLeft="@+id/pass"
-        android:layout_alignStart="@+id/pass"
-        android:layout_alignRight="@+id/pass"
-        android:layout_alignEnd="@+id/pass" />
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignRight="@+id/linearLayout"
+        android:layout_alignEnd="@+id/linearLayout"
+        android:layout_toRightOf="@+id/login"
+        android:layout_toEndOf="@+id/login" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:focusableInTouchMode="true"
+        android:src="@mipmap/monkey"
+        android:scaleType="matrix"
+        android:layout_below="@+id/progressBar" />
 
 
 </RelativeLayout>

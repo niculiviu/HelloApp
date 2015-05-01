@@ -1,6 +1,5 @@
 package com.example.liviu.helloapp;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,11 +10,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -25,36 +22,34 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.io.Console;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
-import static com.example.liviu.helloapp.R.layout.*;
+import static com.example.liviu.helloapp.R.layout.activity_dashboard;
+import static com.example.liviu.helloapp.R.layout.lista_cu_projecte;
 
 
-public class Dashboard extends ActionBarActivity {
+public class TasksActivity extends ActionBarActivity {
     TextView output;
     ProgressBar pb;
     SharedPreferences someData;
-    public List<Projects> pro_list=new ArrayList<Projects>();
-    List<Projects> projectsList;
+    List<Projects> projectList;
     List<String> myItems= new ArrayList<>();
     public static String filename="MySharedString";
 
-    public static String get_projects_url="http://192.168.2.2:8081/mobile/get/projects";
+    public static String get_tasks_url="http://192.168.2.2:8081/mobile/get/project/task";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_dashboard);
 
-
         someData = getSharedPreferences(MainActivity.filename,0);
-        String id=someData.getString("id","Nu exista data aceasta");
+        String id=someData.getString("id_project","Nu exista data aceasta");
+        Log.e("ID:",id);
 
+        TextView title=(TextView) findViewById(R.id.textView2);
+        title.setText(someData.getString("project_name","undefined"));
 
 
 
@@ -63,7 +58,7 @@ public class Dashboard extends ActionBarActivity {
 
 
         if(isOnline()){
-            requestData(get_projects_url,id);
+            requestData(get_tasks_url,id);
         }
     }
 
@@ -121,11 +116,7 @@ public class Dashboard extends ActionBarActivity {
             return false;
         }
     }
-    protected void goToTasksScreen(){
-        Intent intent=new Intent(this,TasksActivity.class);
-        startActivityForResult(intent,0);
 
-    }
 
     protected class MyTask extends AsyncTask<RequestPackage,String,String> {
 
@@ -143,37 +134,29 @@ public class Dashboard extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(String s) {
+            Log.e("RESPONSE",s.toString());
 
+            /*
             try{
 
                 JSONArray arr = new JSONArray(s);
                 final List<Projects> projectsList=new ArrayList<>();
 
-
                 Log.e("LUNGIMEA VECTORULUI", String.valueOf(arr.length()));
                 for (int i=0;i<arr.length();i++){
-                    JSONObject obj=arr.getJSONObject(i);
-
-                    pro_list.add(new Projects(obj.getString("project_name"),obj.getString("project_description"),obj.getString("_id")));
-
                     Projects project = new Projects();
-
+                    JSONObject obj=arr.getJSONObject(i);
                     project.setId(obj.getString("_id"));
                     project.setProject_name(obj.getString("project_name"));
                     project.setProject_description(obj.getString("project_description"));
-
                     myItems.add(obj.getString("project_name"));
-
                     projectsList.add(project);
                 }
 
 
                 populateListView();
 
-                ArrayAdapter<Projects> adapter = new projectListAdapter(pro_list);
                 ListView listView=(ListView) findViewById(R.id.listView);
-                listView.setAdapter(adapter);
-
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -183,15 +166,12 @@ public class Dashboard extends ActionBarActivity {
                         Log.e("Pro_name:",projectsList.get(position).getProject_name());
 
                         SharedPreferences.Editor editor= someData.edit();
-                        editor.putString("id_project",projectsList.get(position).getId());
-                        editor.putString("project_name",projectsList.get(position).getProject_name());
-                        editor.commit();
+                        editor.putString("id_project",projectsList.get(position).getId().toString());
 
-                        goToTasksScreen();
+
                         Toast.makeText(getApplicationContext(),
-                                "Tasks for: " + project, Toast.LENGTH_LONG)
+                                "Click ListItem Number " + project, Toast.LENGTH_LONG)
                                 .show();
-
                     }
                 });
 
@@ -199,7 +179,7 @@ public class Dashboard extends ActionBarActivity {
             }
             catch (Exception e){
                 e.printStackTrace();
-            }
+            }*/
 
             pb.setVisibility(View.INVISIBLE);
         }
@@ -213,25 +193,10 @@ public class Dashboard extends ActionBarActivity {
     }
     private void populateListView() {
 
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,lista_cu_projecte,myItems);
+        ListView list = (ListView) findViewById(R.id.listView);
+        list.setAdapter(adapter);
     }
 
-    public class projectListAdapter extends ArrayAdapter<Projects>{
-        public projectListAdapter(List<Projects> pro_list){
-            super(Dashboard.this,R.layout.lista_cu_projecte,pro_list);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-           View viewItem=convertView;
-           if(viewItem==null){
-               viewItem = ((LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.lista_cu_projecte, parent, false);
-           }
-            Projects currentPro=Dashboard.this.pro_list.get(position);
-            TextView project_name=(TextView) viewItem.findViewById(R.id.project);
-            project_name.setText(currentPro.getProject_name());
-            return viewItem;
-        }
-    }
 }
+

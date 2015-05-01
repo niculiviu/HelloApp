@@ -51,9 +51,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setLogo(R.drawable.logo);
-        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setLogo(R.mipmap.logo);
+        actionBar.setIcon(R.mipmap.logo);
         actionBar.setTitle("Task Heroes");
 
         someData = getSharedPreferences(filename,0);
