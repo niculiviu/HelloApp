@@ -7,9 +7,11 @@
     <string name="action_bar_do_task">Do Task</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_register">Register</string>
-
+<string name="red">#c9302c</string>
+    <string name="green">#449d44</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_dashboard">Task Heroes</string>
-    <string name="title_activity_tasks">TasksActivity</string>
+    <string name="title_activity_tasks">Task Heroes</string>
+    <string name="title_activity_single_task">Task Heroes</string>
 </resources>
