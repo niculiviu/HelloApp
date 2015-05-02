@@ -9,6 +9,33 @@ public class Projects {
     private String project_name;
     private String project_description;
     private String id;
+    private String organization;
+
+    public Projects() {
+    }
+
+    public Projects(String project_name, String project_description, String id) {
+        super();
+        this.project_name = project_name;
+        this.project_description = project_description;
+        this.id = id;
+    }
+
+    public Projects(String project_name, String project_description, String id, String organization) {
+        super();
+        this.project_name = project_name;
+        this.project_description = project_description;
+        this.id = id;
+        this.organization = organization;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
 
     public String getId() {
         return id;

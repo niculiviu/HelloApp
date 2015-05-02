@@ -150,21 +150,28 @@ public class Dashboard extends ActionBarActivity {
                 final List<Projects> projectsList=new ArrayList<>();
 
 
-                Log.e("LUNGIMEA VECTORULUI", String.valueOf(arr.length()));
+                Log.e("LUNGIMEA VECTORULUI", String.valueOf(arr));
                 for (int i=0;i<arr.length();i++){
-                    JSONObject obj=arr.getJSONObject(i);
+                    JSONObject organization=arr.getJSONObject(i);
+                    JSONArray arr2=new JSONArray();
+                    arr2=organization.getJSONArray("organization_projects");
+                    for(int j=0;j<arr2.length();j++){
+                        JSONObject obj=arr2.getJSONObject(j);
+                        pro_list.add(new Projects(obj.getString("project_name"),obj.getString("project_description"),obj.getString("_id"),organization.getString("organization_name")));
 
-                    pro_list.add(new Projects(obj.getString("project_name"),obj.getString("project_description"),obj.getString("_id")));
+                        Projects project = new Projects();
 
-                    Projects project = new Projects();
+                        project.setId(obj.getString("_id"));
+                        project.setProject_name(obj.getString("project_name"));
+                        project.setProject_description(obj.getString("project_description"));
+                        project.setOrganization(organization.getString("organization_name"));
+                        myItems.add(obj.getString("project_name"));
+                        projectsList.add(project);
+                    }
 
-                    project.setId(obj.getString("_id"));
-                    project.setProject_name(obj.getString("project_name"));
-                    project.setProject_description(obj.getString("project_description"));
 
-                    myItems.add(obj.getString("project_name"));
 
-                    projectsList.add(project);
+
                 }
 
 
@@ -177,14 +184,14 @@ public class Dashboard extends ActionBarActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String project = ((TextView) view).getText().toString();
+                        String project = projectsList.get(position).getProject_name();
 
-                        Log.e("Pro_id:",projectsList.get(position).getId().toString());
-                        Log.e("Pro_name:",projectsList.get(position).getProject_name());
+                        Log.e("Pro_id:", projectsList.get(position).getId().toString());
+                        Log.e("Pro_name:", projectsList.get(position).getProject_name());
 
-                        SharedPreferences.Editor editor= someData.edit();
-                        editor.putString("id_project",projectsList.get(position).getId());
-                        editor.putString("project_name",projectsList.get(position).getProject_name());
+                        SharedPreferences.Editor editor = someData.edit();
+                        editor.putString("id_project", projectsList.get(position).getId());
+                        editor.putString("project_name", projectsList.get(position).getProject_name());
                         editor.commit();
 
                         goToTasksScreen();
@@ -229,8 +236,13 @@ public class Dashboard extends ActionBarActivity {
                viewItem = ((LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.lista_cu_projecte, parent, false);
            }
             Projects currentPro=Dashboard.this.pro_list.get(position);
+
             TextView project_name=(TextView) viewItem.findViewById(R.id.project);
             project_name.setText(currentPro.getProject_name());
+
+            TextView organization_name=(TextView) viewItem.findViewById(R.id.org);
+            organization_name.setText(currentPro.getOrganization());
+
             return viewItem;
         }
     }
